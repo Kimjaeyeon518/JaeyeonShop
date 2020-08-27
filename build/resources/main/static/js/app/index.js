@@ -14,6 +14,16 @@ var main = {
         });
     },
     save : function () {
+        if($('#title').val() == null || $('#title').val() =="") {
+            alert("제목을 입력해주세요");
+            return;
+        }
+
+        if($('#content').val() == null || $('#content').val() =="") {
+            alert("내용을 입력해주세요");
+            return;
+        }
+
         var data = {
             title: $('#title').val(),
             author: $('#author').val(),

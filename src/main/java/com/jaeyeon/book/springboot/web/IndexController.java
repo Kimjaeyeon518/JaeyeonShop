@@ -10,19 +10,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.servlet.http.HttpSession;
-
 @RequiredArgsConstructor
 @Controller
 public class IndexController {
 
     private final PostsService postsService;
-    private final HttpSession httpSession;
 
     @GetMapping("/")        // 이제 어느 컨트롤러든지 @LoginUser만 사용하면 세션정보를 가져올 수 있음
     public String index(Model model, @LoginUser SessionUser user) {      // postsService.findAllDesc()로 가져온 결과를 "posts"로 index.mustache에 전달
         model.addAttribute("posts", postsService.findAllDesc());
-        
+
         if (user != null) {
             model.addAttribute("userName", user.getName());
         }
@@ -30,7 +27,10 @@ public class IndexController {
     }
 
     @GetMapping("/posts/save")
-    public String postsSave() {
+    public String postsSave(Model model, @LoginUser SessionUser user) {
+        if (user != null) {
+            model.addAttribute("userName", user.getName());
+        }
         return "posts-save";
     }
 
