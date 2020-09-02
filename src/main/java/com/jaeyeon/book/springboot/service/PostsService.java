@@ -20,6 +20,7 @@ public class PostsService {
 
     @Transactional
     public Long save(PostsSaveRequestDto requestDto) {
+
         return postsRepository.save(requestDto.toEntity()).getId();
     }
 
@@ -51,6 +52,7 @@ public class PostsService {
 
     @Transactional(readOnly = true)
     public List<PostsListResponseDto> findAllDesc() {
+        Long postsCount = postsRepository.findAllDescCount();
         return postsRepository.findAllDesc().stream()
                 .map(PostsListResponseDto::new)
                 .collect(Collectors.toList());

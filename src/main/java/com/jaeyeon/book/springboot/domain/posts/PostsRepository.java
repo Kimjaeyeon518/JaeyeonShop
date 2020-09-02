@@ -10,5 +10,6 @@ public interface PostsRepository extends JpaRepository<Posts, Long> {
     @Query(value = "SELECT p FROM Posts p ORDER BY p.id DESC")
     List<Posts> findAllDesc();
 
-
+    @Query(value = "SELECT COUNT(*) FROM Posts")
+    Long findAllDescCount();
 }
