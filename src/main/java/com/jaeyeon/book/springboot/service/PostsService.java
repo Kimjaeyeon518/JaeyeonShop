@@ -2,10 +2,10 @@ package com.jaeyeon.book.springboot.service;
 
 import com.jaeyeon.book.springboot.domain.posts.Posts;
 import com.jaeyeon.book.springboot.domain.posts.PostsRepository;
-import com.jaeyeon.book.springboot.web.dto.PostsListResponseDto;
-import com.jaeyeon.book.springboot.web.dto.PostsResponseDto;
-import com.jaeyeon.book.springboot.web.dto.PostsSaveRequestDto;
-import com.jaeyeon.book.springboot.web.dto.PostsUpdateRequestDto;
+import com.jaeyeon.book.springboot.web.dto.PostsDto.PostsListResponseDto;
+import com.jaeyeon.book.springboot.web.dto.PostsDto.PostsResponseDto;
+import com.jaeyeon.book.springboot.web.dto.PostsDto.PostsSaveRequestDto;
+import com.jaeyeon.book.springboot.web.dto.PostsDto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,9 +52,9 @@ public class PostsService {
 
     @Transactional(readOnly = true)
     public List<PostsListResponseDto> findAllDesc() {
-        Long postsCount = postsRepository.findAllDescCount();
         return postsRepository.findAllDesc().stream()
                 .map(PostsListResponseDto::new)
                 .collect(Collectors.toList());
     }
+
 }

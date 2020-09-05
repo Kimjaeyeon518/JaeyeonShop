@@ -1,15 +1,14 @@
 package com.jaeyeon.book.springboot.domain.posts;
 
 import com.jaeyeon.book.springboot.domain.BaseTimeEntity;
+import com.jaeyeon.book.springboot.domain.comment.Comment;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor      // 기본 생성자 자동 추가

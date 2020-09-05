@@ -1,10 +1,10 @@
 package com.jaeyeon.book.springboot.web;
 
 import com.jaeyeon.book.springboot.service.PostsService;
-import com.jaeyeon.book.springboot.web.dto.PostsListResponseDto;
-import com.jaeyeon.book.springboot.web.dto.PostsResponseDto;
-import com.jaeyeon.book.springboot.web.dto.PostsSaveRequestDto;
-import com.jaeyeon.book.springboot.web.dto.PostsUpdateRequestDto;
+import com.jaeyeon.book.springboot.web.dto.PostsDto.PostsListResponseDto;
+import com.jaeyeon.book.springboot.web.dto.PostsDto.PostsResponseDto;
+import com.jaeyeon.book.springboot.web.dto.PostsDto.PostsSaveRequestDto;
+import com.jaeyeon.book.springboot.web.dto.PostsDto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,4 +48,5 @@ public class PostsApiController {
     public List<PostsListResponseDto> findAll() {
         return postsService.findAllDesc();
     }
+
 }
