@@ -11,6 +11,14 @@ var main = {
         $('#btn-delete').on('click', function () {
             _this.delete();
         });
+
+        $('#btn_insertComment').on('click', function () {
+            _this.insertComment();
+        });
+
+        $('#btn-addProduct').on('click', function () {
+            _this.addProduct();
+        });
     },
     save : function () {
         if($('#title').val() == null || $('#title').val() =="") {
@@ -23,62 +31,158 @@ var main = {
             return;
         }
 
+        var userId =$('#userId').val();
+        var title =$('#title').val();
+        var content =$('#content').val();
+
         var data = {
-            title: $('#title').val(),
-            author: $('#author').val(),
-            content: $('#content').val()
-        };
+            userId : userId,
+            title: title,
+            content: content
+        }
 
         $.ajax({
             type: 'POST',
-            url: '/api/v1/posts',
+            url: '/board',
             dataType: 'json',
-            contentType:'application/json; charset=utf-8',
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            contentType:'application/json; charset=utf-8'
         }).done(function() {
             alert('글이 등록되었습니다.');
-            window.location.href = '/';
+            window.location.href = '/boardList';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
     },
     update : function () {
-        var data = {
-            title: $('#title').val(),
-            content: $('#content').val()
-        };
 
-        var id = $('#id').val();
+        if($('#title').val() == null || $('#title').val() =="") {
+            alert("제목을 입력해주세요");
+            return;
+        }
+
+        if($('#content').val() == null || $('#content').val() =="") {
+            alert("내용을 입력해주세요");
+            return;
+        }
+
+        var boardId =$('#boardId').val();
+        var title =$('#title').val();
+        var content =$('#content').val();
+
+        var data = {
+            title: title,
+            content: content
+        }
 
         $.ajax({
             type: 'PUT',
-            url: '/api/v1/posts/'+id,
+            url: '/board/' + boardId,
             dataType: 'json',
-            contentType:'application/json; charset=utf-8',
-            data: JSON.stringify(data)
+            data: JSON.stringify(data),
+            contentType:'application/json; charset=utf-8'
         }).done(function() {
             alert('글이 수정되었습니다.');
-            window.location.href = '/';
+            window.location.href = '/boardList';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
     },
+
     delete : function () {
-        var id = $('#id').val();
+        var id = $('#boardId').val();
 
         $.ajax({
             type: 'DELETE',
-            url: '/api/v1/posts/'+id,
+            url: '/board/'+ id,
             dataType: 'json',
             contentType:'application/json; charset=utf-8'
         }).done(function() {
             alert('글이 삭제되었습니다.');
+            window.location.href = '/boardList';
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+    },
+
+    insertComment : function() {					// 댓글 생성 함수
+
+        var userId = $('#commentUserId').val();
+        var boardId = $('#boardId').val();
+        var content = $('#comment_content').val();
+
+        if($('#comment_content').val() == null || $('#comment_content').val() =="") {
+            alert("내용을 입력해주세요");
+            return;
+        }
+
+        var data = {
+            userId: userId,
+            boardId: boardId,
+            content: content
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/comment',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType:'application/json; charset=utf-8'
+        }).done(function() {
+            window.location.href = '/board/' + boardId;
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+	},
+
+    addProduct : function () {
+        if($('#name').val() == null || $('#name').val() =="") {
+            alert("상품명을 입력해주세요");
+            return;
+        }
+
+        if($('#price').val() == null || $('#price').val() =="") {
+            alert("가격을 입력해주세요");
+            return;
+        }
+
+        if($('#discount').val() == null || $('#discount').val() =="") {
+            alert("할인율을 입력해주세요");
+            return;
+        }
+        if($('#description').val() == null || $('#description').val() =="") {
+            alert("상품 설명을 입력해주세요");
+            return;
+        }
+
+        var name = $('#name').val();
+        var category = $('#category').val();
+        var description = $('#description').val();
+        var price = $('#price').val();
+        var discount = $('#discount').val();
+
+        var data = {
+            name: name,
+            category: category,
+            description: description,
+            price: price,
+            discount: discount
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/product',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8'
+        }).done(function() {
+            alert('상품이 등록되었습니다.');
             window.location.href = '/';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
     }
-
 };
 
 main.init();
+

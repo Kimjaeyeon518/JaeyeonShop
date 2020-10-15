@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <block include="fragments/common/head"></block>
+    <block include="fragments/common/script"></block>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+
+
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <!-- Default box -->
+            <div class="card">
+                <h2>Uploaded Files</h2>
+                <table class="table" id="customerTable">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Filename</th>
+                        <th>Download</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="file, rowStat: ${files}">
+                        <td th:text="${rowStat.count}">1</td>
+                        <td th:text="${file.filename}">File-Name</td>
+                        <td><a th:href="${file.url}">Link</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <a class="btn btn-light btn-block" href="/" role="button">Back to Upload Form</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+
+</div>
+<!-- ./wrapper -->
+
+</body>
+</html>

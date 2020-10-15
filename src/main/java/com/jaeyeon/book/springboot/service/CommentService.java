@@ -1,16 +1,18 @@
 package com.jaeyeon.book.springboot.service;
 
-import com.jaeyeon.book.springboot.domain.comment.Comment;
-import com.jaeyeon.book.springboot.domain.comment.CommentRepository;
-import com.jaeyeon.book.springboot.web.dto.CommentDto.CommentListResponseDto;
-import com.jaeyeon.book.springboot.web.dto.CommentDto.CommentResponseDto;
-import com.jaeyeon.book.springboot.web.dto.CommentDto.CommentSaveRequestDto;
-import com.jaeyeon.book.springboot.web.dto.CommentDto.CommentUpdateRequestDto;
+import com.jaeyeon.book.springboot.domain.Board;
+import com.jaeyeon.book.springboot.domain.Comment;
+import com.jaeyeon.book.springboot.domain.User;
+import com.jaeyeon.book.springboot.dto.CommentDto.CommentRequestDto;
+import com.jaeyeon.book.springboot.repository.BoardRepository;
+import com.jaeyeon.book.springboot.repository.CommentRepository;
+import com.jaeyeon.book.springboot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -18,43 +20,53 @@ import java.util.stream.Collectors;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final BoardRepository boardRepository;
 
     @Transactional
-    public Long save(CommentSaveRequestDto requestDto) {
+    public Long save(CommentRequestDto commentRequestDto) {
 
-        return commentRepository.save(requestDto.toEntity()).getId();
+        Optional<User> user = userRepository.findById(commentRequestDto.getUserId());
+        Optional<Board> board = boardRepository.findById(commentRequestDto.getBoardId());
+
+        Comment comment = new Comment();
+        comment.setBoard(board.get());
+        comment.setUser(user.get());
+        comment.setContent(commentRequestDto.getContent());
+
+        return commentRepository.save(comment).getId();
     }
 
     @Transactional
-    public Long update(Long id, CommentUpdateRequestDto requestDto) {
-        Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+    public Long update(Long commentId, CommentRequestDto commentRequestDto) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + commentId));
 
-        comment.update(requestDto.getContent());
+        comment.setContent(commentRequestDto.getContent());
 
-        return id;
+        return commentRepository.save(comment).getId();
     }
 
     @Transactional
     public void delete (Long id) {
         Comment comment = commentRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + id));
 
         commentRepository.delete(comment);
     }
 
     @Transactional(readOnly = true)
-    public CommentResponseDto findById(Long id) {
-        Comment entity = commentRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+    public Comment findById(Long id) {
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 댓글이 없습니다. id=" + id));
 
-        return new CommentResponseDto(entity);
+        return comment;
     }
 
     @Transactional(readOnly = true)
-    public List<CommentListResponseDto> findAllDesc() {
-        return commentRepository.findAllDesc().stream()
-                .map(CommentListResponseDto::new)
+    public List<Comment> findAllByBoardId(Long boardId) {
+        return commentRepository.findAllByBoardId(boardId).stream()
+                .map(Comment::new)
                 .collect(Collectors.toList());
     }
 }

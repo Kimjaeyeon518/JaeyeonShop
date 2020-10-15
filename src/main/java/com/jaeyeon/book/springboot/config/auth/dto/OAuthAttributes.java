@@ -1,7 +1,7 @@
 package com.jaeyeon.book.springboot.config.auth.dto;
 
-import com.jaeyeon.book.springboot.domain.user.Role;
-import com.jaeyeon.book.springboot.domain.user.User;
+import com.jaeyeon.book.springboot.domain.User;
+import com.jaeyeon.book.springboot.domain.enums.Role;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,14 +10,16 @@ import java.util.Map;
 @Getter
 public class OAuthAttributes {
     private Map<String, Object> attributes;
+    private Long id;
     private String nameAttributeKey;
     private String name;
     private String email;
     private String picture;
 
     @Builder
-    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture) {
+    public OAuthAttributes(Map<String, Object> attributes, Long id, String nameAttributeKey, String name, String email, String picture) {
         this.attributes = attributes;
+        this.id = id;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
@@ -35,6 +37,7 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
+                .id((Long) attributes.get("id"))
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .picture((String) attributes.get("picture"))
@@ -47,6 +50,7 @@ public class OAuthAttributes {
         Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
         return OAuthAttributes.builder()
+                .id((Long) response.get("id"))
                 .name((String) response.get("name"))
                 .email((String) response.get("email"))
                 .picture((String) response.get("profile_image"))
@@ -57,10 +61,11 @@ public class OAuthAttributes {
 
     public User toEntity() {    // 처음 가입할 때, User 엔티티를 생성
         return User.builder()
+                .id(id)
                 .name(name)
                 .email(email)
                 .picture(picture)
-                .role(Role.USER)   // 가입할 때의 기본 권한은 GUEST
+                .role(Role.USER)   // 가입할 때의 기본 권한은 USER
                 .build();
     }
 }

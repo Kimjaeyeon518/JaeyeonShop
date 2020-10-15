@@ -1,6 +1,6 @@
 package com.jaeyeon.book.springboot.config.auth;
 
-import com.jaeyeon.book.springboot.domain.user.Role;
+import com.jaeyeon.book.springboot.domain.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,10 +19,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable() // h2-console 화면을 사용하기 위해 해당 옵션들을 disable 함
                 .and()
                     .authorizeRequests()    // URL별 권한 관리를 설정하는 옵션의 시작점
-                    .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/profile").permitAll()
-                    .antMatchers("/api/v1/**").hasRole(Role.USER.name())    // "/api/v1/**" 주소를 가진 API는 USER 권한을 가진 사람만 가능
-                    .antMatchers("/posts/**").hasRole(Role.USER.name())
-                    .anyRequest().authenticated()   // 설정한 값들 이외 나머지 URL들은 인증된 사용자(로그인한 사용자)들에게만 허용
+                    .antMatchers("/board/**").hasRole(Role.USER.name())    // "/api/v1/**" 주소를 가진 API는 USER 권한을 가진 사람만 가능
+//                    .antMatchers("/posts/save", "/posts/update/**").hasRole(Role.ADMIN.name())
+                    .anyRequest().permitAll()   // 설정한 값들 이외 나머지 URL들은 인증된 사용자(로그인한 사용자)들에게만 허용
                 .and()
                     .logout()
                       .logoutSuccessUrl("/")      // 로그아웃 성공 시 "/" 주소로 이동
