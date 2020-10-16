@@ -14,5 +14,6 @@ public class ProductRequestDto {
     private String description;
     private Integer price;
     private Integer discount;
+    private String productImg;
 
 }

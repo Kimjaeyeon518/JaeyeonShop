@@ -37,19 +37,24 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="name">상품명</label>
-                                        <input id="name" type="text" class="form-control" placeholder="상품명을 입력해 주세요." />
+                                        <input id="name" type="text" class="form-control input_txt" placeholder="상품명을 입력해 주세요." />
                                     </div>
                                     <div class="form-group">
                                         <label for="price">가격</label>
-                                        <input id="price" type="text" class="form-control" placeholder="상품명을 입력해 주세요." />
+                                        <input id="price" type="text" class="form-control input_txt" placeholder="상품명을 입력해 주세요." />
                                     </div>
                                     <div class="form-group">
                                         <label for="discount">할인율</label>
-                                        <input id="discount" type="text" class="form-control" placeholder="상품명을 입력해 주세요." />
+                                        <input id="discount" type="text" class="form-control input_txt" placeholder="상품명을 입력해 주세요." />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label" for="productImg">Upload Title Image :</label>
+                                        <input type="file" id="productImg" name="productImg" class="upload-file" />
+                                        <button type="button" id="uploadBtn" onclick="productRegistObj.productTitleImgUpload()">업로드</button>
                                     </div>
                                     <div class="form-group">
                                         <label for="description">상품 설명</label>
-                                        <textarea id="description" class="form-control" placeholder="상품 설명을 입력해 주세요."></textarea>
+                                        <textarea id="description" class="form-control input_txt" placeholder="상품 설명을 입력해 주세요."></textarea>
                                     </div>
                                 </div>
                             </form>
@@ -60,7 +65,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <button id="btn-addProduct" type="button" class="btn btn-primary waves-effect waves-light">등록</button>
+                        <a href="javascript:void(0);" class="btn-wine-14" onclick="productRegistObj.registProduct();">등록</a>
                         <a href="/" class="btn btn-secondary">취소</a>
                     </div>
                 </div>
@@ -77,6 +82,117 @@
 
     </div>
     <!-- ./wrapper -->
+
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+		/*<![CDATA[*/
+
+		var productRegistObj = {
+            uploadCheckYn   : false,
+            regex   : new RegExp("(.*?)\.(jpg|JPG|jpeg|JPEG|png|PNG)$"),
+            maxSize : 5242880,  // 5MB
+            titleImagePath : "",
+
+            checkExtension  : function(fileName, fileSize) {
+
+                if (fileSize >= this.maxSize) {
+                    alert("파일 사이즈 초과");
+                    return false;
+                }
+
+                if (!this.regex.test(fileName)) {
+                    alert("해당 종류의 파일은 업로드할 수 없습니다.");
+                    return false;
+                }
+                return true;
+            },
+
+            productTitleImgUpload   : function () {
+                var form_data = new FormData();
+
+                var inputFile = $("input[name='productImg']");
+
+                var files = inputFile[0].files;
+
+                if (files.length === 0) {
+                    alert("업로드 할 파일이 없습니다.")
+                    return;
+                }
+
+                if (!this.checkExtension(files[0].name, files[0].size))
+                    return;
+                form_data.append('file', files[0]);
+
+                $.ajax({
+                    type: "POST",
+                    url: '/product/image',
+                    cache: false,
+                    contentType: false,
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    data : form_data
+                }).done(function() {
+                        productRegistObj.uploadCheckYn = true;
+                        productRegistObj.titleImagePath = files[0].name;
+                        alert("상품 타이틀 이미지 업로드 완료.");
+                }).fail(function (error) {
+                        alert(JSON.stringify(error));
+                });
+            },
+
+            registProduct   : function () {
+                var productObj = {};
+                var blankCnt = 0;
+
+                var name = $('#name').val();
+                var category = $('#category').val();
+                var description = $('#description').val();
+                var price = $('#price').val();
+                var discount = $('#discount').val();
+
+                $(".input_txt").each(function() {
+
+                    if ($(this).val() === "") {
+                        blankCnt++;
+                        return false;
+                    }
+                })
+
+                if (blankCnt > 0) {
+                    alert("빈 곳이 존재합니다.")
+                    return;
+                }
+
+                if (!this.uploadCheckYn) {
+                    alert("타이틀 이미지를 업로드 하세요.");
+                    return;
+                }
+
+                productObj.name = name;
+                productObj.price = price;
+                productObj.productImg = this.titleImagePath;
+                productObj.category = category;
+                productObj.description = description;
+                productObj.discount = discount;
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/product',
+                    data: JSON.stringify(productObj),
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8'
+                }).done(function() {
+                    alert('상품이 등록되었습니다.');
+                    window.location.href = '/';
+                }).fail(function (error) {
+                    alert(error.responseText);
+                });
+            }
+        }
+
+		/*]]>*/
+		</script>
+    </th:block>
 
 <th:block th:include="fragments/common/script"></th:block>
 </body>

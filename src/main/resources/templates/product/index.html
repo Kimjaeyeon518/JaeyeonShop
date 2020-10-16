@@ -36,8 +36,8 @@
                         <div class="card-body">
                             <!-- image -->
                             <div class="text-center">
-                                <a th:href="@{'/product/' + ${product.id}} + '/(category=' + ${category} + ')'">
-                                    <img class="img-fluid" th:src="${product.productImg}" alt="Product picture">
+                                <a th:href="@{'/product/' + ${product.id}}">
+                                    <img class="img-fluid" th:src="@{'/images/' + ${product.productImg}}" alt="Product picture">
                                 </a>
                             </div>
                             <!-- main -->

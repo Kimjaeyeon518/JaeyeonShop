@@ -24,11 +24,11 @@
               <img th:src="${product.productImg}" class="product-image" alt="Product Image">
             </div>
             <div class="col-12 product-image-thumbs">
-              <div class="product-image-thumb active"><img th:src="${product.productImg}" alt="Product Image"></div>
-              <div class="product-image-thumb" ><img th:src="${product.productImg}" alt="Product Image"></div>
-              <div class="product-image-thumb" ><img th:src="${product.productImg}" alt="Product Image"></div>
-              <div class="product-image-thumb" ><img th:src="${product.productImg}" alt="Product Image"></div>
-              <div class="product-image-thumb" ><img th:src="${product.productImg}" alt="Product Image"></div>
+              <div class="product-image-thumb active"><img th:src="@{'/images/' + ${product.productImg}}" alt="Product Image"></div>
+              <div class="product-image-thumb" ><img th:src="@{'/images/' + ${product.productImg}}" alt="Product Image"></div>
+              <div class="product-image-thumb" ><img th:src="@{'/images/' + ${product.productImg}}" alt="Product Image"></div>
+              <div class="product-image-thumb" ><img th:src="@{'/images/' + ${product.productImg}}" alt="Product Image"></div>
+              <div class="product-image-thumb" ><img th:src="@{'/images/' + ${product.productImg}}" alt="Product Image"></div>
             </div>
           </div>
           <div class="col-12 col-sm-6">
