@@ -32,6 +32,7 @@ public class ProductService {
     private final Path rootLocation;
 
     private String productImgName = "";
+
     @Autowired
     public ProductService(FileUploadProperties prop) {
         this.rootLocation = Paths.get(prop.getProductUploadDir())
@@ -42,6 +43,23 @@ public class ProductService {
     public Long save(ProductRequestDto productRequestDto) {
 
         Product product = new Product();
+
+        product.setName(productRequestDto.getName());
+        product.setCategory(productRequestDto.getCategory());
+        product.setDescription(productRequestDto.getDescription());
+        product.setDiscount(productRequestDto.getDiscount());
+        product.setPrice(productRequestDto.getPrice());
+        product.setProductImg(productImgName);
+        product.setProductStatus(ProductStatus.SALE);
+
+        return productRepository.save(product).getId();
+    }
+
+
+    @Transactional
+    public Long updateProduct(Long id, ProductRequestDto productRequestDto) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다. id=" + id));
 
         product.setName(productRequestDto.getName());
         product.setCategory(productRequestDto.getCategory());
@@ -104,22 +122,6 @@ public class ProductService {
         return rootLocation.resolve(fileName);
     }
 
-//    @Transactional
-//    public String updateProduct(Long id, ProductRequestDto.UpdateRequestDto updateRequestDto) {
-//        Product product = productRepository.findById(id)
-//                .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다. id=" + id));
-//
-//        product.setName(updateRequestDto.getName());
-//        product.setPrice(updateRequestDto.getPrice());
-//        product.setCategory(updateRequestDto.getCategory());
-//        product.setDescription(updateRequestDto.getDescription());
-//        product.setDiscount(updateRequestDto.getDiscount());
-//
-//        productRepository.save(product);
-//
-//        return "상품 정보 수정이 완료되었습니다.";
-//    }
-
     @Transactional
     public void delete (Long id) {
         Product product = productRepository.findById(id)
@@ -146,7 +148,7 @@ public class ProductService {
 
 
     @Transactional
-    public Page<Product> searchPosts(Pageable pageable, String keyword) {
+    public Page<Product> searchProduct(Pageable pageable, String keyword) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10, new Sort(Sort.Direction.DESC, "id")); // <- Sort 추가
 

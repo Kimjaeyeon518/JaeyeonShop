@@ -40,15 +40,4 @@ public class IndexController {
         return "member/login";
     }
 
-    @GetMapping(value = "/selectCategory")
-    public String openSelectCategory(@LoginUser SessionUser user) {
-        return "product/selectCategory";
-    }
-
-    @GetMapping(value = "/addProduct")
-    public String openProductInsert(@RequestParam(value="category", required = false) String category, @LoginUser SessionUser user, Model model) {
-        model.addAttribute("category", category);
-        return "product/product-save";
-    }
-
 }

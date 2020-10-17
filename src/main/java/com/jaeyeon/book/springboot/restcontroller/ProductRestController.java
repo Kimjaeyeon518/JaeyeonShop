@@ -34,14 +34,12 @@ public class ProductRestController {
         }
     }
 
-//
-//    @PutMapping("/product/{id}")
-//    public String update(@PathVariable Long id, Product product) throws IOException {
-//
-//        productService.updateProduct(id, product);
-//
-//        return "redirect:/product/index";
-//    }
+
+    @PutMapping("/product/{id}")
+    public Long update(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDto) throws IOException {
+
+        return productService.updateProduct(id, productRequestDto);
+    }
 
 
     @DeleteMapping("/product/{id}")

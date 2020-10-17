@@ -183,7 +183,7 @@
                     contentType: 'application/json; charset=utf-8'
                 }).done(function() {
                     alert('상품이 등록되었습니다.');
-                    window.location.href = '/';
+                    window.location.href = '/productList/?category=' + category;
                 }).fail(function (error) {
                     alert(error.responseText);
                 });

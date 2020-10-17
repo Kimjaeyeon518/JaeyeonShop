@@ -46,7 +46,7 @@ public class BoardController {
         if (user != null) {
             model.addAttribute("user", userService.findById(user.getId()));
         }
-        return "board/index";
+        return "board/boardList";
     }
 
 

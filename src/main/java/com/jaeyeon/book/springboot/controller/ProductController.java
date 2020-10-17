@@ -38,7 +38,7 @@ public class ProductController {
             model.addAttribute("user", userService.findById(user.getId()));
         }
 
-        return "product/index";
+        return "product/productList";
     }
 
     @GetMapping("/product/{id}")
@@ -51,7 +51,7 @@ public class ProductController {
             model.addAttribute("user", userService.findById(user.getId()));
         }
 
-        return "fragments/content/product/detail";
+        return "product/product-view";
     }
 
     @GetMapping("/product/update/{id}")
@@ -65,5 +65,16 @@ public class ProductController {
         }
 
         return "product/product-update";
+    }
+
+    @GetMapping(value = "/selectCategory")
+    public String openSelectCategory(@LoginUser SessionUser user) {
+        return "product/selectCategory";
+    }
+
+    @GetMapping(value = "/addProduct")
+    public String openProductInsert(@RequestParam(value="category", required = false) String category, @LoginUser SessionUser user, Model model) {
+        model.addAttribute("category", category);
+        return "product/product-save";
     }
 }
