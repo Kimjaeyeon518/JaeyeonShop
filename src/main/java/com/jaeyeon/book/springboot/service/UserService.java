@@ -1,6 +1,7 @@
 package com.jaeyeon.book.springboot.service;
 
 import com.jaeyeon.book.springboot.domain.User;
+import com.jaeyeon.book.springboot.dto.UserDto.UserRequestDto;
 import com.jaeyeon.book.springboot.dto.UserDto.UserSaveRequestDto;
 import com.jaeyeon.book.springboot.dto.UserDto.UserUpdateRequestDto;
 import com.jaeyeon.book.springboot.repository.UserRepository;
@@ -14,19 +15,26 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long save(UserSaveRequestDto requestDto) {
+    public Long save(UserRequestDto requestDto) {
 
-        return userRepository.save(requestDto.toEntity()).getId();
+        User user = new User();
+
+        user.setName(requestDto.getName());
+        user.setEmail(requestDto.getEmail());
+        user.setPicture(requestDto.getPicture());
+
+        return userRepository.save(user).getId();
     }
 
     @Transactional
-    public Long update(Long id, UserUpdateRequestDto requestDto) {
+    public Long update(Long id, UserRequestDto requestDto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
 
-        user.update(requestDto.getName(), requestDto.getEmail(), requestDto.getPicture());
+        user.setName(requestDto.getName());
+        user.setPicture(requestDto.getPicture());
 
-        return id;
+        return userRepository.save(user).getId();
     }
 
     @Transactional
@@ -43,6 +51,17 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
 
         return user;
+    }
+
+    @Transactional
+    public Long saveAddr(Long id, UserRequestDto requestDto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
+
+        user.setAddr(requestDto.getAddr());
+        user.setDetailAddr(requestDto.getDetailAddr());
+
+        return userRepository.save(user).getId();
     }
 
 }

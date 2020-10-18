@@ -27,6 +27,14 @@ var main = {
         $('#productToList').on('click', function () {
             _this.productToList();
         });
+
+        $('#btn_addCart').on('click', function() {
+            _this.addCart();
+        });
+
+        $('#btn_buy').on('click', function() {
+            _this.buy();
+        });
     },
     save : function () {
         if($('#title').val() == null || $('#title').val() =="") {
@@ -211,7 +219,35 @@ var main = {
     productToList : function () {
         var category = $('#category').val();
         window.location.href = '/productList/?category=' + category;
+    },
+
+    addCart : function () {
+
+        var userId = $('#userId').val();
+        var productId = $('#productId').val();
+
+        var data = {
+            userId: userId,
+            productId: productId
+        }
+
+        $.ajax({
+                    type: 'POST',
+                    url: '/product/cart',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType:'application/json; charset=utf-8'
+                }).done(function() {
+                    alert("상품이 장바구니에 추가되었습니다!");
+                }).fail(function (error) {
+                    alert(JSON.stringify(error));
+                });
+    },
+
+    buy : function () {
+        window.location.href = '/product/buy';
     }
+
 };
 
 main.init();

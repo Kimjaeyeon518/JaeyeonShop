@@ -1,9 +1,13 @@
 package com.jaeyeon.book.springboot.service;
 
+import com.jaeyeon.book.springboot.domain.Cart;
 import com.jaeyeon.book.springboot.domain.Product;
+import com.jaeyeon.book.springboot.domain.User;
 import com.jaeyeon.book.springboot.domain.enums.ProductStatus;
 import com.jaeyeon.book.springboot.dto.ProductDto.ProductRequestDto;
+import com.jaeyeon.book.springboot.repository.CartRepository;
 import com.jaeyeon.book.springboot.repository.ProductRepository;
+import com.jaeyeon.book.springboot.repository.UserRepository;
 import com.jaeyeon.book.springboot.util.UploadFileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +25,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
+
 import com.jaeyeon.book.springboot.util.FileUploadProperties;
+
 @RequiredArgsConstructor
 @Service
 public class ProductService {

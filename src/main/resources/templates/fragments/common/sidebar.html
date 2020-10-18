@@ -103,11 +103,20 @@
           </a>
         </li>
 
-        <li class="nav-item has-treeview">
+        <li th:unless="${#strings.isEmpty( user )}" class="nav-item has-treeview">
           <a href="/selectCategory" class="nav-link">
             <i class="nav-icon fas fa-table"></i>
             <p>
               상품 등록
+            </p>
+          </a>
+        </li>
+
+        <li th:unless="${#strings.isEmpty( user )}" class="nav-item has-treeview">
+          <a th:href="@{/cartList}" class="nav-link">
+            <i class="nav-icon fas fa-table"></i>
+            <p>
+              장바구니
             </p>
           </a>
         </li>

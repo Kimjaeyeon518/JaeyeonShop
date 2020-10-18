@@ -8,7 +8,8 @@ import lombok.RequiredArgsConstructor;
 public enum ProductStatus {
 
     SOLDOUT("품절"),
-    SALE("판매중");
+    SALE("판매중"),
+    LIMIT("한정수량");
 
     private final String status;
 

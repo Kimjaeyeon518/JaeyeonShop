@@ -1,42 +1,36 @@
 package com.jaeyeon.book.springboot.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jaeyeon.book.springboot.domain.enums.OrderStatus;
 import lombok.*;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Slf4j
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
-public class ProductOrder extends BaseTimeEntity {
+public class ProductOrder extends BaseTimeEntity  {
 
     @Id     // primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column
     private String orderNumber;
-
     @Column
     private String orderName;
-
     @Column
     private String deliveryMessage;
-
     @Column
     private OrderStatus orderStatus;
-
     @Column
     private String address;
-
     @Column
     private Character refundState;
-
     @Column
     private Integer amount;
 

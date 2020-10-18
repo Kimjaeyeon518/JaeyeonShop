@@ -69,12 +69,27 @@ public class ProductController {
 
     @GetMapping(value = "/selectCategory")
     public String openSelectCategory(@LoginUser SessionUser user) {
+        if (user != null) {
+            model.addAttribute("user", userService.findById(user.getId()));
+        }
         return "product/selectCategory";
     }
 
     @GetMapping(value = "/addProduct")
     public String openProductInsert(@RequestParam(value="category", required = false) String category, @LoginUser SessionUser user, Model model) {
+        if (user != null) {
+            model.addAttribute("user", userService.findById(user.getId()));
+        }
         model.addAttribute("category", category);
         return "product/product-save";
+    }
+
+    @GetMapping(value = "/product/buy/{productId}")
+    public String buyProduct(@LoginUser SessionUser user, Model model, @PathVariable Long productId) {
+        if (user != null) {
+            model.addAttribute("user", userService.findById(user.getId()));
+        }
+        model.addAttribute("product", productService.findById(productId));
+        return "product/product-buy";
     }
 }

@@ -48,6 +48,10 @@ public class ProductRestController {
         return id;
     }
 
+//    @GetMapping("/product/cart/{productId}/{userId}")
+//    public Long addCart(@PathVariable Long productId, @PathVariable Long userId) {
+//        return productService.addCart(productId, userId);
+//    }
 //    @GetMapping("/product/{id}")
 //    public ProductResponseDto findById(@PathVariable Long id) {
 //        return productService.findById(id);

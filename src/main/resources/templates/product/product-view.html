@@ -38,6 +38,7 @@
               <img th:src="@{'/images/' + ${product.productImg}}" class="product-image" alt="Product Image">
             </div>
           </div>
+          <input th:unless="${#strings.isEmpty( user )}" type="hidden" name="userId" id="userId" th:value="${user.id}"/>
           <input type="hidden" name="productId" id="productId" th:value="${product.id}"/>
           <input type="hidden" id="category" th:value="${product.category}"/>
           <div class="col-12 col-sm-6">
@@ -46,7 +47,7 @@
 
             <div class="bg-gray py-2 px-3 mt-4">
               <h4 class="mt-0">
-                <small><del th:text="${product.price}"></del>원</small>
+                <small><del class="text-center" th:text="${#numbers.formatInteger(product.price,0,'COMMA')}"></del>원</small>
               </h4>
               <h2 class="mb-0" th:text="${#numbers.formatInteger(product.price-(product.price*product.discount)/100,0,'COMMA')} + '원'"/>
             </div>
@@ -61,14 +62,14 @@
             </div>
 
             <div class="mt-4">
-              <div class="btn btn-primary btn-lg btn-flat">
-                <i class="fas fa-cart-plus fa-lg mr-2"></i> 
+              <div id="btn_addCart" class="btn btn-primary btn-lg btn-flat">
+                <i class="fas fa-cart-plus fa-lg mr-2"></i>
                 Add to Cart
               </div>
 
-              <div class="btn btn-default btn-lg btn-flat">
-                <i class="fas fa-heart fa-lg mr-2"></i> 
-                Add to Wishlist
+              <div id="btn_buy" class="btn btn-default btn-lg btn-flat">
+                <i class="fas fa-heart fa-lg mr-2"></i>
+                Buy it !
               </div>
             </div>
 
