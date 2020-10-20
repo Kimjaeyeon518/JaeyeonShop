@@ -143,7 +143,6 @@
             registProduct   : function () {
                 var productObj = {};
                 var blankCnt = 0;
-
                 var name = $('#name').val();
                 var category = $('#category').val();
                 var description = $('#description').val();
@@ -151,7 +150,6 @@
                 var discount = $('#discount').val();
 
                 $(".input_txt").each(function() {
-
                     if ($(this).val() === "") {
                         blankCnt++;
                         return false;
@@ -159,7 +157,7 @@
                 })
 
                 if (blankCnt > 0) {
-                    alert("빈 곳이 존재합니다.")
+                    alert("빈 곳이 존재합니다.");
                     return;
                 }
 

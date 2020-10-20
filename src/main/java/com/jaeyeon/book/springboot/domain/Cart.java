@@ -32,9 +32,7 @@ public class Cart {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
-    @Column
-    @CreatedDate       // Entity가 생성되어 저장될 때 시간이 자동으로 저장됨
-    private LocalDateTime createdDate;
+    private Integer count;
 
     @ManyToOne
     @JoinColumn(name = "product_order_id", referencedColumnName = "id")
@@ -45,4 +43,5 @@ public class Cart {
         this.user = cart.getUser();
         this.product = cart.getProduct();
     }
+
 }

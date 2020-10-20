@@ -32,8 +32,12 @@ var main = {
             _this.addCart();
         });
 
-        $('#btn_buy').on('click', function() {
-            _this.buy();
+        $('#product_buy').on('click', function() {
+            _this.product_buy();
+        });
+
+        $('#cart_buy').on('click', function() {
+            _this.cart_buy();
         });
     },
     save : function () {
@@ -244,8 +248,14 @@ var main = {
                 });
     },
 
-    buy : function () {
-        window.location.href = '/product/buy';
+    product_buy : function () {
+        var productId = $("#productId").val();
+
+        window.location.href = '/product/buy/' + productId;
+    },
+
+    cart_buy : function () {
+        window.location.href = '/cart/buy';
     }
 
 };

@@ -6,7 +6,6 @@ import com.jaeyeon.book.springboot.repository.CartRepository;
 import com.jaeyeon.book.springboot.repository.ProductRepository;
 import com.jaeyeon.book.springboot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,16 +23,24 @@ public class CartService {
 
     @Transactional
     public Long addCart(CartRequestDto cartRequestDto) {
-
         Optional<User> user = userRepository.findById(cartRequestDto.getUserId());
         Optional<Product> product = productRepository.findById(cartRequestDto.getProductId());
+        Long duplicateProduct = Long.valueOf(0);
+        duplicateProduct = cartRepository.findAllByUserIdAndProductId(cartRequestDto.getUserId(), cartRequestDto.getProductId());
 
-        Cart cart = new Cart();
-
-        cart.setUser(user.get());
-        cart.setProduct(product.get());
-
-        return cartRepository.save(cart).getId();
+        // 중복된 상품이 이미 장바구니에 있는 경우
+        if(duplicateProduct != null) {
+            Optional<Cart> cart = cartRepository.findById(duplicateProduct);
+            cart.get().setCount(cart.get().getCount() + 1);
+            return cartRepository.save(cart.get()).getId();
+        }
+        else {
+            Cart cart = new Cart();
+            cart.setCount(1);
+            cart.setUser(user.get());
+            cart.setProduct(product.get());
+            return cartRepository.save(cart).getId();
+        }
     }
 
     @Transactional(readOnly = true)

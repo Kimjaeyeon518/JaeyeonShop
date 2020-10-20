@@ -3,6 +3,8 @@ package com.jaeyeon.book.springboot.controller;
 import com.jaeyeon.book.springboot.config.auth.LoginUser;
 import com.jaeyeon.book.springboot.config.auth.dto.SessionUser;
 import com.jaeyeon.book.springboot.domain.Product;
+import com.jaeyeon.book.springboot.domain.User;
+import com.jaeyeon.book.springboot.service.CartService;
 import com.jaeyeon.book.springboot.service.ProductService;
 import com.jaeyeon.book.springboot.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final UserService userService;
+    private final CartService cartService;
 
     @GetMapping("/productList")        // 이제 어느 컨트롤러든지 @LoginUser만 사용하면 세션정보를 가져올 수 있음
     public String index(Model model, @LoginUser SessionUser user, @PageableDefault Pageable pageable
@@ -68,7 +71,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/selectCategory")
-    public String openSelectCategory(@LoginUser SessionUser user) {
+    public String openSelectCategory(@LoginUser SessionUser user, Model model) {
         if (user != null) {
             model.addAttribute("user", userService.findById(user.getId()));
         }
@@ -84,6 +87,7 @@ public class ProductController {
         return "product/product-save";
     }
 
+    // 상품창에서 바로 구매
     @GetMapping(value = "/product/buy/{productId}")
     public String buyProduct(@LoginUser SessionUser user, Model model, @PathVariable Long productId) {
         if (user != null) {
@@ -92,4 +96,6 @@ public class ProductController {
         model.addAttribute("product", productService.findById(productId));
         return "product/product-buy";
     }
+
+
 }

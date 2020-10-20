@@ -10,5 +10,6 @@ import lombok.*;
 public class CartRequestDto {
     private Long userId;
     private Long productId;
-
+    private Integer totalPrice;
+    private Integer totalDiscountPrice;
 }
