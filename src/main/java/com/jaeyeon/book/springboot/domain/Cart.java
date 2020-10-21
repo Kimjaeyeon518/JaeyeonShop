@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Entity
 public class Cart {
 
-    @Id
+    @Id @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
@@ -32,6 +32,7 @@ public class Cart {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
+    @Column
     private Integer count;
 
     @ManyToOne
@@ -40,8 +41,10 @@ public class Cart {
     private ProductOrder productOrder;
 
     public Cart(Cart cart) {
+        this.id = cart.getId();
         this.user = cart.getUser();
         this.product = cart.getProduct();
+        this.count = cart.getCount();
     }
 
 }

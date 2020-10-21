@@ -93,8 +93,17 @@ public class ProductController {
         if (user != null) {
             model.addAttribute("user", userService.findById(user.getId()));
         }
-        model.addAttribute("product", productService.findById(productId));
-        return "product/product-buy";
+
+        Product product = productService.findById(productId);
+
+        int totalPrice = product.getPrice();
+        int totalDiscountPrice = product.getPrice()-(product.getPrice()*product.getDiscount())/100;
+
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("totalDiscountPrice", totalDiscountPrice);
+        model.addAttribute("product", product);
+
+        return "product/product-order";
     }
 
 

@@ -58,7 +58,9 @@
                         <tbody>
                         <tr th:if="${not #lists.isEmpty( cartList )}"
                             th:each="row : ${cartList}">
-                            <td th:text="${row.id}"></td>
+                            <td>
+                                <h3 th:text="${row.id}"/>
+                            </td>
                             <td class="text-left"><a
                                     th:href="'/product/' + ${row.product.id}"
                                     th:text="${row.product.name}"></a></td>
@@ -67,10 +69,10 @@
                             </td>
                             <td class="text-left">
                                 <small><del class="text-center" th:text="${#numbers.formatInteger(row.product.price,0,'COMMA')}"></del>원</small>
-                                <p th:text="${#numbers.formatInteger(row.product.price-(row.product.price*row.product.discount)/100,0,'COMMA')} + '원'"/>
+                                <h3 th:text="${#numbers.formatInteger(row.product.price-(row.product.price*row.product.discount)/100,0,'COMMA')} + '원'"/>
                             </td>
-                            <td
-                                    th:text="${row.count}">
+                            <td>
+                                    <h2 th:text="${row.count}"/>
                             </td>
                             <td>
                                 <button type="button"
@@ -85,17 +87,16 @@
                         </tbody>
                     </table>
                     <div class="mt-4" th:if="${not #lists.isEmpty( cartList )}">
-                        <h2 class="mb-0" th:text="'총 결제 금액 : ' + ${totalPrice} + ' - ' + ${totalPrice - totalDiscountPrice} + ' = ' +
-                                    ${totalDiscountPrice}"></h2>
-
-                        <div id="cart_buy" class="btn btn-default btn-lg btn-flat">
-                            <i class="fas fa-heart fa-lg mr-2"></i>
-                            Buy it !
-                        </div>
+                        <h3 class="mb-0" th:text="'총 결제 금액 : ' + ${totalPrice} + ' - ' + ${totalPrice - totalDiscountPrice} + ' = ' +
+                                    ${totalDiscountPrice}"></h3>
                     </div>
+
                 </div>
             </div>
-
+            <div th:if="${not #lists.isEmpty( cartList )}" id="cart_buy" class="btn btn-default btn-lg btn-flat">
+                <i class="fas fa-heart fa-lg mr-2 pull-right"></i>
+                Buy it !
+            </div>
         </section>
     </div>
 

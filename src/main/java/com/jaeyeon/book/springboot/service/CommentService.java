@@ -44,6 +44,9 @@ public class CommentService {
 
         comment.setContent(commentRequestDto.getContent());
 
+        System.out.println("####" + comment.modifiedDate);
+        System.out.println("####" + comment.getCreatedDate());
+        System.out.println("####" + comment.getModifiedDate());
         return commentRepository.save(comment).getId();
     }
 

@@ -3,6 +3,7 @@ package com.jaeyeon.book.springboot.controller;
 import com.jaeyeon.book.springboot.config.auth.LoginUser;
 import com.jaeyeon.book.springboot.config.auth.dto.SessionUser;
 import com.jaeyeon.book.springboot.domain.Board;
+import com.jaeyeon.book.springboot.domain.Comment;
 import com.jaeyeon.book.springboot.service.CommentService;
 import com.jaeyeon.book.springboot.service.BoardService;
 import com.jaeyeon.book.springboot.service.UserService;
@@ -16,6 +17,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -64,9 +67,10 @@ public class BoardController {
     public String boardView(@PathVariable Long id, Model model, @LoginUser SessionUser user) {
 
         Board board = boardService.findById(id);
+        List<Comment> commentList = commentService.findAllByBoardId(id);
 
         model.addAttribute("board", board);
-        model.addAttribute("commentList", commentService.findAllByBoardId(id));
+        model.addAttribute("commentList", commentList);
 
         if (user != null) {
             model.addAttribute("user", userService.findById(user.getId()));

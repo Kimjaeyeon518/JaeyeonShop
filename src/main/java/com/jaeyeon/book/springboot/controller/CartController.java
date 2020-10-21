@@ -31,12 +31,11 @@ public class CartController {
         int totalPrice = 0;
         int totalDiscountPrice = 0;
         for(Cart cart : cartList) {
-
             Long productId = cart.getProduct().getId();
             Product product = productService.findById(productId);
 
-            totalPrice += product.getPrice();
-            totalDiscountPrice += product.getPrice()-(product.getPrice()*product.getDiscount())/100;
+            totalPrice += product.getPrice() * cart.getCount();
+            totalDiscountPrice += (product.getPrice()-(product.getPrice()*product.getDiscount())/100) * cart.getCount();
         }
 
         if (user != null) {
@@ -59,6 +58,7 @@ public class CartController {
         int totalPrice = 0;
         int totalDiscountPrice = 0;
         for(Cart cart : cartList) {
+
             Long productId = cart.getProduct().getId();
             Product product = productService.findById(productId);
 
@@ -70,10 +70,10 @@ public class CartController {
             model.addAttribute("user", userService.findById(user.getId()));
         }
 
-        model.addAttribute("cartList", cartList);
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("totalDiscountPrice", totalDiscountPrice);
+        model.addAttribute("cartList", cartList);
 
-        return "product/product-buy";
+        return "product/product-order";
     }
 }

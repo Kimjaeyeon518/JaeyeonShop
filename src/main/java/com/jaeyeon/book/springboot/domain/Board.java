@@ -15,7 +15,7 @@ import java.util.List;
 @Entity         // 테이블과 링크될 클래스임을 나타냄
 public class Board extends BaseTimeEntity {
 
-    @Id     // 해당 테이블의 PK 필드를 나타냄
+    @Id @Column     // 해당 테이블의 PK 필드를 나타냄
     @GeneratedValue(strategy = GenerationType.IDENTITY)    // PK의 생성 규칙 : strategy = GenerationType.IDENTITY -> auto_increment
     private Long id;
 

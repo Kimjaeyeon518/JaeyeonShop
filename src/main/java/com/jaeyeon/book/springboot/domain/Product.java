@@ -13,6 +13,7 @@ import java.util.List;
 @Slf4j
 @Setter
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity         // 테이블과 링크될 클래스임을 나타냄
 public class Product extends BaseTimeEntity {

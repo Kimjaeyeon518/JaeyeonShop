@@ -55,6 +55,7 @@ public class CartService {
         Cart cart = cartRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다. id=" + id));
 
+        cart.setCount(cart.getCount()-1);
         cartRepository.delete(cart);
     }
 
