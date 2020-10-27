@@ -255,9 +255,10 @@ var main = {
     },
 
     cart_buy : function () {
-        window.location.href = '/cart/buy';
-    }
+        var productId = $("#productId").val();
 
+        window.location.href = '/cart/buy' + productId;
+    }
 };
 
 main.init();

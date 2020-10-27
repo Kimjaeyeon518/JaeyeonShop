@@ -257,7 +257,6 @@ var main = {
     cart_buy : function () {
         window.location.href = '/cart/buy';
     }
-
 };
 
 main.init();

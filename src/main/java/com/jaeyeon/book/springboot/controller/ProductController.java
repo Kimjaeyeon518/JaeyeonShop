@@ -106,5 +106,16 @@ public class ProductController {
         return "product/product-order";
     }
 
+    // 상품창에서 바로 구매
+    @GetMapping(value = "/product/iamport{productId}")
+    public String kakaoPay(@LoginUser SessionUser user, Model model, @PathVariable Long productId) {
+        if (user != null) {
+            model.addAttribute("user", userService.findById(user.getId()));
+        }
+        Product product = productService.findById(productId);
+        int totalDiscountPrice = product.getPrice()-(product.getPrice()*product.getDiscount())/100;
+        model.addAttribute("totalDiscountPrice", totalDiscountPrice);
 
+        return "product/iamport";
+    }
 }
