@@ -51,17 +51,18 @@
                         </div>
                         <!-- /.card-body -->
                     </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <a th:if="${not #lists.isEmpty( cartList )}" th:href="@{'/product/iamport/' + ${totalDiscountPrice}}" type="button" class="btn btn-primary waves-effect waves-light">주문하기</a>
+                            <a th:if="${not #lists.isEmpty( product )}" th:href="@{'/product/iamport/' + ${totalDiscountPrice}}" type="button" class="btn btn-primary waves-effect waves-light">주문하기</a>
+                            <a th:if="${not #lists.isEmpty( cartList )}" th:href="@{/cartList}" class="btn btn-secondary">주문 취소</a>
+                            <a th:if="${not #lists.isEmpty( product )}" th:href="@{'/product/' + ${product.id}}" class="btn btn-secondary">주문 취소</a>
+                        </div>
+                    </div>
                     <!-- /.card -->
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <a th:if="${not #lists.isEmpty( cartList )}" th:href="@{'/product/iamport' + ${cartList.id}}" type="button" class="btn btn-primary waves-effect waves-light">주문하기</a>
-                    <a th:unless="${not #lists.isEmpty( cartList )}" th:href="@{'/product/iamport' + ${product.id}" type="button" class="btn btn-primary waves-effect waves-light">주문하기</a>
-                    <a th:if="${not #lists.isEmpty( cartList )}" th:href="@{/cartList}" class="btn btn-secondary">주문 취소</a>
-                    <a th:unless="${not #lists.isEmpty( cartList )}" th:href="'/product/' + ${product.id}" class="btn btn-secondary">주문 취소</a>
-                </div>
-            </div>
+
         </section>
     </div>
 

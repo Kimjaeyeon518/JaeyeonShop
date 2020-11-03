@@ -255,9 +255,7 @@ var main = {
     },
 
     cart_buy : function () {
-        var productId = $("#productId").val();
-
-        window.location.href = '/cart/buy' + productId;
+        window.location.href = '/cart/buy';
     }
 };
 

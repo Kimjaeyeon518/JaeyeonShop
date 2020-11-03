@@ -29,12 +29,12 @@
         <section class="content" style="margin-left:10px">
             <div class="card-body bg-white mt-0 shadow">
                 <p style="font-weight: bold">카카오페이 현재 사용가능</p>
-                <p style="color: #ac2925; margin-top: 30px" th:text="'결제 금액 : ' + ${totalDiscountPrice}"><</p>
-                <button type="button" class="btn btn-lg btn-block  btn-custom" id="charge_kakao">충 전 하 기</button>
+                <p style="color: #ac2925; margin-top: 30px" th:text="'결제 금액 : ' + ${totalDiscountPrice}"></p>
+                <button type="button" class="btn btn-lg btn-block  btn-custom" id="charge">충 전 하 기</button>
             </div>
         </section>
 
-<th:block th:include="fragments/common/footer"></th:block>
+    </div>
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -44,7 +44,7 @@
     <script th:inline="javascript">
 		/*<![CDATA[*/
 
-		$('#charge_kakao').click(function () {
+		$('#charge').click(function () {
             var IMP = window.IMP; // 생략가능
             IMP.init('imp03990567'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
             var money = $('#totalDiscountPrice').val();
@@ -107,5 +107,6 @@
 
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <th:block th:include="fragments/common/script"></th:block>
+</div>
 </body>
 </html>
