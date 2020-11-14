@@ -34,11 +34,11 @@ public class Cart {
 
     @Column
     private Integer count;
-
-    @ManyToOne
-    @JoinColumn(name = "product_order_id", referencedColumnName = "id")
-    @JsonIgnore
-    private ProductOrder productOrder;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "product_order_id", referencedColumnName = "id")
+//    @JsonIgnore
+//    private ProductOrder productOrder;
 
     public Cart(Cart cart) {
         this.id = cart.getId();
