@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>게시글 수정</title>
+    <th:block th:include="fragments/common/head"></th:block>
+</head>
+<body class="hold-transition sidebar-mini">
+
+<div class="wrapper">
+    <!-- Navbar -->
+    <th:block th:include="fragments/common/navbar"></th:block>
+
+    <!-- Main Sidebar Container -->
+    <th:block th:include="fragments/common/sidebar"></th:block>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>게시글 수정</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content" style="margin-left:10px">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card card-primary" style="width:1200px">
+                        <div class="card-header">
+                        </div>
+                        <form th:object="${board}">
+                            <input type="hidden" id="boardId" th:value="*{id}"/>
+
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="title" class="col-sm-2 control-label">제목</label>
+                                    <div class="col-sm-10">
+                                        <input id="title" type="text" class="form-control" th:value="*{title}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">작성자</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control" th:text="*{user.name}"></p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="content" class="col-sm-2 control-label">내용</label>
+                                    <div class="col-sm-10">
+                                        <textarea id="content" class="form-control" placeholder="내용을 입력해 주세요." th:text="*{content}"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">등록일</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control" th:text="*{modifiedDate}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="btn_wrap text-center">
+                            <a th:href="'/board/' + ${board.id}" role="button" class="btn btn-secondary">취소</a>
+                            <button type="button" class="btn btn-primary" id="btn-update">수정 완료</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.content-wrapper -->
+
+    <th:block th:include="fragments/common/footer"></th:block>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+</div>
+<!-- ./wrapper -->
+<th:block th:include="fragments/common/script"></th:block>
+</body>
+</html>

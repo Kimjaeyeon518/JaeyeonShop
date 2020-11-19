@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<title>자유 게시판</title>
+	<th:block th:include="fragments/common/head"></th:block>
+</head>
+<body class="hold-transition sidebar-mini">
+
+	<div class="wrapper">
+		<!-- Navbar -->
+		<th:block th:include="fragments/common/navbar"></th:block>
+
+		<!-- Main Sidebar Container -->
+		<th:block th:include="fragments/common/sidebar"></th:block>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>자유 게시판</h1>
+						</div>
+						<form id="searchForm" style="text-align:center" th:action="@{/boardList}" method="get" class="form-horizontal" role="form">
+							<div class="form-group">
+								<input type="text" name="keyword" class="form-control" placeholder="검색어를 입력해주세요"/>
+								<button style="margin-top : 10dp, width : 30dp" type="submit" class="btn btn-primary"><span class="nav-icon fas search"></span>Search</button>
+							</div>
+						</form>
+						<div th:unless="${#strings.isEmpty( user )}" class="pull-right" style="margin-left: 400px;">
+							<div class="btn_wrap text-right">
+								<a th:href="@{/board/save}" role="button"
+								   class="btn btn-primary waves-effect waves-light">Write</a>
+							</div>
+						</div>
+					</div>
+				</div><!-- /.container-fluid -->
+
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<!-- Default box -->
+				<div class="card">
+					<div class="card-body p-0">
+						<table class="table table-striped projects">
+							<thead>
+								<tr>
+									<th style="width: 8%">
+										번호
+									</th>
+									<th style="width: 30%">
+										제목
+									</th>
+									<th style="width: 20%">
+										작성자
+									</th>
+									<th style="width: 30%">
+										등록일
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${not #lists.isEmpty( boardList )}"
+									th:each="row : ${boardList}">
+									<td th:text="${row.id}"></td>
+									<td class="text-left"><a
+										th:href="'/board/' + ${row.id}"
+										th:text="${row.title}"></a></td>
+									<td th:text="${row.user.name}">
+<!--										<ul class="list-inline">-->
+<!--											<li class="list-inline-item">-->
+<!--												<img alt="Avatar" class="table-avatar" src="../../dist/img/avatar.png">-->
+<!--											</li>-->
+<!--										</ul>-->
+									</td>
+									<td
+										th:text="${#temporals.format( row.modifiedDate, 'yyyy/MM/dd - - HH:mm' )}">
+									</td>
+								</tr>
+								<tr th:unless="${not #lists.isEmpty( boardList )}">
+									<td colspan="4">조회된 결과가 없습니다.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<nav class="navbar navbar-expand navbar-white navbar-light" style="text-align:center">
+						<ul class="pagination"
+							th:with="start=${T(Math).floor(boardList.number/10)*10 + 1},
+								last=(${start + 9 < boardList.totalPages ? start + 9 : boardList.totalPages})">
+							<li>
+								<a th:if="${#strings.isEmpty( keyword )}" th:href="@{/boardList/(page=1)}" aria-label="First">
+									<span aria-hidden="true">First</span>
+								</a>
+								<a th:unless="${#strings.isEmpty( keyword )}" th:href="@{/boardList/(page=1, keyword=${keyword})}" aria-label="First">
+									<span aria-hidden="true">First</span>
+								</a>
+							</li>
+
+							<li th:class="${boardList.first} ? 'disabled'">
+								<a th:if="${#strings.isEmpty( keyword )}" th:href="${boardList.first} ? '#' :@{/boardList/(page=${boardList.number})}" aria-label="Previous">
+									<span aria-hidden="true">&lt;</span>
+								</a>
+								<a th:unless="${#strings.isEmpty( keyword )}" th:href="${boardList.first} ? '#' :@{/boardList/(page=${boardList.number}, keyword=${keyword})}" aria-label="Previous">
+									<span aria-hidden="true">&lt;</span>
+								</a>
+							</li>
+
+
+							<li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == boardList.number + 1} ? 'active'">
+								<a th:if="${#strings.isEmpty( keyword )}" th:text="${page}" th:href="@{/boardList/(page=${page})}"></a>
+								<a th:unless="${#strings.isEmpty( keyword )}" th:text="${page}" th:href="@{/boardList/(page=${page}, keyword=${keyword})}"></a>
+							</li>
+
+							<li th:class="${boardList.last} ? 'disabled'">
+								<a th:if="${#strings.isEmpty( keyword )}" th:href="${boardList.last} ? '#' : @{/boardList/(page=${boardList.number + 2})}" aria-label="Next">
+									<span aria-hidden="true">&gt;</span>
+								</a>
+								<a th:unless="${#strings.isEmpty( keyword )}" th:href="${boardList.last} ? '#' : @{/boardList/(page=${boardList.number + 2}, keyword=${keyword})}" aria-label="Next">
+									<span aria-hidden="true">&gt;</span>
+								</a>
+							</li>
+
+							<li>
+								<a th:if="${#strings.isEmpty( keyword )}" th:href="@{/boardList/(page=${boardList.totalPages})}" aria-label="Last">
+									<span aria-hidden="true">Last</span>
+								</a>
+								<a th:unless="${#strings.isEmpty( keyword )}" th:href="@{/boardList/(page=${boardList.totalPages}, keyword=${keyword})}" aria-label="Last">
+									<span aria-hidden="true">Last</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</section>
+		</div>
+		<th:block layout:fragment="script">
+			<script th:inline="javascript">
+				/*<![CDATA[*/
+
+				function movePage(uri, queryString) {
+					location.href = uri + queryString;
+				}
+
+				function searchBoard(form) {
+					/*[- 드롭다운이 아닌 메인 검색 키워드로 검색했을 때 -]*/
+					if (isEmpty(form) == true) {
+						var searchKeyword = document
+								.getElementById("mainSearchKeyword");
+						if (isEmpty(searchKeyword.value) == true) {
+							alert("키워드를 입력해 주세요.");
+							searchKeyword.focus();
+							return false;
+						}
+
+						form = document.getElementById("searchForm");
+						form.searchKeyword.value = searchKeyword.value;
+						form.submit();
+					}
+
+					if (isEmpty(form.searchKeyword.value) == true) {
+						alert("키워드를 입력해 주세요.");
+						form.searchKeyword.focus();
+						return false;
+					}
+				}
+				/*[- end of function -]*/
+
+				/*]]>*/
+			</script>
+		</th:block>
+
+		<th:block th:include="fragments/common/footer"></th:block>
+
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+	</div>
+	<!-- ./wrapper -->
+
+	<th:block th:include="fragments/common/script"></th:block>
+</body>
+</html>
