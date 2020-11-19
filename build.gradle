@@ -36,6 +36,12 @@ dependencies {
     compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
     compile('org.springframework.session:spring-session-jdbc')
     compile('org.mariadb.jdbc:mariadb-java-client')
+
+    // AWS S3
+    compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.820'
+    compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.820'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-aws', version: '2.2.1.RELEASE', ext: 'pom'
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
 }

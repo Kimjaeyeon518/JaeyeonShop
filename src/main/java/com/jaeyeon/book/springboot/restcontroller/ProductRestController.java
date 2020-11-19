@@ -3,6 +3,7 @@ package com.jaeyeon.book.springboot.restcontroller;
 import com.jaeyeon.book.springboot.domain.UploadFile;
 import com.jaeyeon.book.springboot.dto.ProductDto.ProductRequestDto;
 import com.jaeyeon.book.springboot.service.ProductService;
+import com.jaeyeon.book.springboot.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,21 +18,27 @@ import static com.jaeyeon.book.springboot.util.UploadFileUtil.PRODUCT_UPLOAD_IMA
 public class ProductRestController {
 
     private final ProductService productService;
+    private S3Service s3Service;
+    String imgPath;
 
     @PostMapping("/product")
     public Long save(@RequestBody ProductRequestDto productRequestDto) {
+        productRequestDto.setProductImg(imgPath);
         return productService.save(productRequestDto);
     }
 
     @PostMapping("/product/image")
     public ResponseEntity<?> uploadProductImage(@RequestParam("file") MultipartFile file) throws IOException {
+//        try {
+//            UploadFile uploadedFile = productService.uploadProductImage(file);
+//            return ResponseEntity.ok().body("product-upload-image/" + uploadedFile.getSaveFileName());
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().build();
+//        }
+        imgPath = s3Service.upload(file);
 
-        try {
-            UploadFile uploadedFile = productService.uploadProductImage(file);
-            return ResponseEntity.ok().body("product-upload-image/" + uploadedFile.getSaveFileName());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return ResponseEntity.ok().body("upload success");
+
     }
 
 
