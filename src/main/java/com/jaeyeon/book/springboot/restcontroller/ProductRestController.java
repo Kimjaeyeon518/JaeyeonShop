@@ -3,7 +3,6 @@ package com.jaeyeon.book.springboot.restcontroller;
 import com.jaeyeon.book.springboot.domain.UploadFile;
 import com.jaeyeon.book.springboot.dto.ProductDto.ProductRequestDto;
 import com.jaeyeon.book.springboot.service.ProductService;
-import com.jaeyeon.book.springboot.service.S3Service;
 import com.jaeyeon.book.springboot.util.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
