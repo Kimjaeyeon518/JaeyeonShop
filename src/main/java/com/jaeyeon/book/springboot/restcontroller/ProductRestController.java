@@ -3,7 +3,7 @@ package com.jaeyeon.book.springboot.restcontroller;
 import com.jaeyeon.book.springboot.domain.UploadFile;
 import com.jaeyeon.book.springboot.dto.ProductDto.ProductRequestDto;
 import com.jaeyeon.book.springboot.service.ProductService;
-import com.jaeyeon.book.springboot.util.S3Uploader;
+import com.jaeyeon.book.springboot.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-import static com.jaeyeon.book.springboot.util.UploadFileUtil.PRODUCT_UPLOAD_IMAGE;
-
 @RequiredArgsConstructor
 @RestController
 public class ProductRestController {
 
     private final ProductService productService;
-    private S3Uploader s3Uploader;
+    private final S3Service s3Service;
     String imgPath;
 
     @PostMapping("/product")
@@ -35,8 +33,8 @@ public class ProductRestController {
 //        } catch (Exception e) {
 //            return ResponseEntity.badRequest().build();
 //        }
+        imgPath = s3Service.upload(file);
 
-        imgPath = s3Uploader.upload(file, "static");
         return ResponseEntity.ok().body("upload success");
 
     }
