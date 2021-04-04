@@ -1,5 +1,7 @@
 # JaeyeonShop
 
+링크 : http://ec2-52-79-176-92.ap-northeast-2.compute.amazonaws.com:8080/
+
 Spring boot + JPA + Spring Security + Thymeleaf 쇼핑몰
 
 
@@ -10,7 +12,7 @@ Spring boot + JPA + Spring Security + Thymeleaf 쇼핑몰
 4. Thymeleaf
 5. Google Login
 6. MVC 패턴
-7. REST 방식
+7. AWS 배포
 
 
 # INDEX
