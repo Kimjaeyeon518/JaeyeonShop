@@ -25,7 +25,7 @@ public class IndexController {
             model.addAttribute("user", userService.findById(user.getId()));
         }
 
-        return "index";
+        return "indexx";
     }
 
     @GetMapping(value = "/member/register")
