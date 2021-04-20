@@ -18,7 +18,7 @@ apply plugin:'io.spring.dependency-management'
 
 group 'com.jaeyeon.book'
 version '1.0.4-SNAPSHOT-'+new Date().format("yyyyMMddHHmmss")
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
@@ -30,7 +30,7 @@ dependencies {
     compile('org.projectlombok:lombok')
     compile('org.springframework.boot:spring-boot-starter-oauth2-client')   // 소셜 로그인을 위한 의존성
     compile('org.springframework.boot:spring-boot-starter-data-jpa')    // 스프링 부트용 Spring Data Jpa 추상화 라이브러리
-   // compile('com.h2database:h2')    // 메모리에서 실행되기 때문에 애플리케이션을 재시작할 때마다 초기화됨 -> 테스트 용도로 많이 사용
+    compile('com.h2database:h2')    // 메모리에서 실행되기 때문에 애플리케이션을 재시작할 때마다 초기화됨 -> 테스트 용도로 많이 사용
     compile('org.mariadb.jdbc:mariadb-java-client');
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
@@ -41,7 +41,7 @@ dependencies {
     compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.820'
     compile group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.11.820'
     compile group: 'org.springframework.cloud', name: 'spring-cloud-aws', version: '2.2.1.RELEASE', ext: 'pom'
-
+//    runtimeOnly ('mysql:mysql-connector-java')
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile('org.springframework.security:spring-security-test')
 }
